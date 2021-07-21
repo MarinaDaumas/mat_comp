@@ -1,6 +1,5 @@
 """
  0 --> positivo; 1 --> negativo
-  O tipo de arrendondamento será sempre para baixo, isto é, por abandono dos bits que excedam o tamanho da mantissa. Entretanto, durante a operação, mantenha todos os bits e apenas abandone bits ao devolver o resultad
 inputs:
 [0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0] e [0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0]
 [0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0] e [1,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0]
@@ -9,7 +8,6 @@ inputs:
 [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0] e [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0] e [0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0]
 """
-
 def test():
 
     result_1 =  0.3-0.2-0.1 
@@ -55,11 +53,15 @@ class TooComplexCalculator():
             num += 1
 
         num += 64
-        binary = bin(num)[2:]
-        for item in binary: 
-            item = int(item)
+        binary = bin(num)[2:] #pula casas que n são o numero
 
-        return binary   
+        bin_2 = []
+        for i in range(len(binary)): # transforma em lista de ints
+            bin_2.append(int(binary[i])) 
+        
+        while len(bin_2) < 7: bin_2.insert(0, 0)
+
+        return bin_2   
         
 
     def exponentiate_mantissa(self, mant, dif):
@@ -114,23 +116,27 @@ class TooComplexCalculator():
         change_exp = False
         carry = 0 
         result = []
-        for i in range(len(mant_1)): result.append(0) 
+        while len(result) < (len(mant_1)): 
+            result.append(0) 
 
-        for i in range(len(mant_1)):
-            if (mant_1[-i-1] + mant_2[-i-1] + carry) == 3:
-                result[-i-1] = 1
+        for index in range(len(mant_1)):
+            backward_index = len(mant_1) -index -1
+
+            print(index,len(mant_1),backward_index, mant_1)
+            if (mant_1[backward_index] + mant_2[backward_index] + carry) == 3:
+                result[backward_index] = 1
                 carry = 1
             
-            elif (mant_1[-i-1] + mant_2[-i-1] + carry) == 2:
-                result[-i-1] = 0
+            elif (mant_1[backward_index] + mant_2[backward_index] + carry) == 2:
+                result[-index-1] = 0
                 carry = 1
 
-            elif (mant_1[-i-1] + mant_2[-i-1] + carry) == 1:
-                result[-i-1] = 1
+            elif (mant_1[backward_index] + mant_2[backward_index] + carry) == 1:
+                result[backward_index] = 1
                 carry = 0
 
             else:
-                result[-i-1] = 0
+                result[backward_index] = 0
                 carry = 0  
 
         if carry == 1:
@@ -153,7 +159,7 @@ class TooComplexCalculator():
             else:
                 item = 1
     
-        return self.binary_sum(num, one)
+        return self.binary_sum(num, one)[0] # only takes result argument
 
     def calcula(self):
         """
@@ -167,7 +173,7 @@ class TooComplexCalculator():
             return self.num_1
 
         mantissa_1, mantissa_2, exp = self.eq_exponent()
-   
+
         if self.num_1[0] != self.num_2[0]:
             if self.exp_1 > self.exp_2:
                 mantissa_2 = self.complemento_2(mantissa_2)
@@ -184,13 +190,17 @@ class TooComplexCalculator():
             else:
                 mantissa_1 = self.complemento_2(mantissa_1)
                 signal = self.num_2[0]
+
         else: 
             signal = self.num_2[0]
-
+            
+        
         result, change_exp = self.binary_sum(mantissa_1, mantissa_2)
 
         binary_exp = self.to_binary_plus_64(exp, change_exp)
+        print(binary_exp)
         final_result = [signal] 
+
 
         for i in range(7): final_result.append(binary_exp[i])
         for i in range(8): final_result.append(result[i+1]) #pula o primeiro 1
@@ -198,8 +208,7 @@ class TooComplexCalculator():
         print(final_result)
         return final_result
 
-calculator = TooComplexCalculator([0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0], [0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0])
+calculator = TooComplexCalculator([0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0])
 calculator.calcula()
-
 
 
