@@ -56,7 +56,8 @@ class TooComplexCalculator():
 
         num += 64
         binary = bin(num)[2:]
-        for item in binary: item = int(item)
+        for item in binary: 
+            item = int(item)
 
         return binary   
         
@@ -166,7 +167,7 @@ class TooComplexCalculator():
             return self.num_1
 
         mantissa_1, mantissa_2, exp = self.eq_exponent()
-        print(mantissa_1, mantissa_2, exp)
+   
         if self.num_1[0] != self.num_2[0]:
             if self.exp_1 > self.exp_2:
                 mantissa_2 = self.complemento_2(mantissa_2)
@@ -187,19 +188,18 @@ class TooComplexCalculator():
             signal = self.num_2[0]
 
         result, change_exp = self.binary_sum(mantissa_1, mantissa_2)
-        print(result, change_exp)
+
         binary_exp = self.to_binary_plus_64(exp, change_exp)
         final_result = [signal] 
 
         for i in range(7): final_result.append(binary_exp[i])
-        
         for i in range(8): final_result.append(result[i+1]) #pula o primeiro 1
 
         print(final_result)
         return final_result
-       
 
 calculator = TooComplexCalculator([0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0], [0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0])
 calculator.calcula()
-#calculator.exponentiate_mantissa([0,0,0,0,0,0,0,0], 4)
+
+
 
