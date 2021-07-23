@@ -46,8 +46,8 @@ class TooComplexCalculator():
         binary = bin(num)[2:] #pula casas que n são o numero
 
         bin_2 = []
-        for i in range(len(binary)): # transforma em lista de ints
-            bin_2.append(int(binary[i])) 
+        for item in binary: # transforma em lista de ints
+            bin_2.append(int(item)) 
         
         while len(bin_2) < 7: bin_2.insert(0, 0)
 
@@ -106,27 +106,30 @@ class TooComplexCalculator():
         change_exp = False
         carry = 0 
         result = []
+
         while len(result) < (len(mant_1)): 
             result.append(0) 
 
-        for index in range(len(mant_1)):
-            backward_index = len(mant_1) -index -1
-            
-            if (mant_1[backward_index] + mant_2[backward_index] + carry) == 3:
-                result[backward_index] = 1
+        i = len(mant_1) - 1
+
+        while i in range(len(mant_1)):            
+            if (mant_1[i] + mant_2[i] + carry) == 3:
+                result[i] = 1
                 carry = 1
             
-            elif (mant_1[backward_index] + mant_2[backward_index] + carry) == 2:
-                result[-index-1] = 0
+            elif (mant_1[i] + mant_2[i] + carry) == 2:
+                result[i] = 0
                 carry = 1
 
-            elif (mant_1[backward_index] + mant_2[backward_index] + carry) == 1:
-                result[backward_index] = 1
+            elif (mant_1[i] + mant_2[i] + carry) == 1:
+                result[i] = 1
                 carry = 0
 
             else:
-                result[backward_index] = 0
+                result[i] = 0
                 carry = 0  
+            
+            i -= 1
 
         if carry == 1:
             result.insert(0, 1)
@@ -200,6 +203,6 @@ lista_1 = eval(input("Insira lista 1: ", ))
 lista_2 = eval(input("Insira lista 2: ", ))
 
 calculator = TooComplexCalculator(lista_1, lista_2)
-calculator.calcula()
+print("Resultado: "calculator.calcula())
 
 
