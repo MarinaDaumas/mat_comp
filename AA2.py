@@ -1,13 +1,3 @@
-"""
- 0 --> positivo; 1 --> negativo
-inputs:
-[0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0] e [0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0]
-[0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0] e [1,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0]
-[0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0] e [0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0]
-[0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0] e [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-[0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0] e [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-[0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0] e [0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0]
-"""
 def test():
 
     result_1 =  0.3-0.2-0.1 
@@ -121,8 +111,7 @@ class TooComplexCalculator():
 
         for index in range(len(mant_1)):
             backward_index = len(mant_1) -index -1
-
-            print(index,len(mant_1),backward_index, mant_1)
+            
             if (mant_1[backward_index] + mant_2[backward_index] + carry) == 3:
                 result[backward_index] = 1
                 carry = 1
@@ -179,7 +168,7 @@ class TooComplexCalculator():
                 mantissa_2 = self.complemento_2(mantissa_2)
                 signal = self.num_1[0]
 
-            elif self.exp_1 > self.exp_2:
+            elif self.exp_1 < self.exp_2:
                 mantissa_1 = self.complemento_2(mantissa_1)
                 signal = self.num_2[0]
 
@@ -187,10 +176,12 @@ class TooComplexCalculator():
                 mantissa_2 = self.complemento_2(mantissa_2)
                 signal = self.num_1[0]
 
-            else:
+            elif mantissa_1 < mantissa_2:
                 mantissa_1 = self.complemento_2(mantissa_1)
                 signal = self.num_2[0]
 
+            else:
+                return [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         else: 
             signal = self.num_2[0]
             
@@ -198,17 +189,17 @@ class TooComplexCalculator():
         result, change_exp = self.binary_sum(mantissa_1, mantissa_2)
 
         binary_exp = self.to_binary_plus_64(exp, change_exp)
-        print(binary_exp)
+
         final_result = [signal] 
-
-
         for i in range(7): final_result.append(binary_exp[i])
         for i in range(8): final_result.append(result[i+1]) #pula o primeiro 1
 
-        print(final_result)
         return final_result
 
-calculator = TooComplexCalculator([0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0])
+lista_1 = eval(input("Insira lista 1: ", ))
+lista_2 = eval(input("Insira lista 2: ", ))
+
+calculator = TooComplexCalculator(lista_1, lista_2)
 calculator.calcula()
 
 
