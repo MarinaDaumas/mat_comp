@@ -1,8 +1,7 @@
 import math
-
-"""
-comecei as 20:45
-"""                                                         
+""""
+Programa para calcular o valor de ln(x) pelo método da bissecção.
+"""                                                     
 def fatorial(n):
     if n == 0:
         return 1
