@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 """
 Programa para calcular os valores de 'a' e 'b' pelo método de descida de gradiente simples em y(x) = a*exp(b*x)   
 
@@ -25,11 +27,17 @@ def Model(L, p, max_iter):
     a = 1
     b =  -1
     iter = 0
+
+    erro_plot = []
     
     while iter < max_iter: 
         w = 0 
         gradient_a = 0
         gradient_b = 0
+
+        x_plot=[]
+        y_plot=[]
+        yc_plot=[]
 
         for coordinate in L:
             x = coordinate[0]
@@ -42,11 +50,30 @@ def Model(L, p, max_iter):
             gradient_a += 2*( y_calculated - y)/exp(-x*b)/len(L)
             gradient_b += 2*(y_calculated - y)*a*x/exp(-x*b)/len(L)
 
+            #Salvando para o plot
+            x_plot.append(x)
+            y_plot.append(y)
+            yc_plot.append(y_calculated)
+
         # Atualização dos pesos
         a -= gradient_a*p
         b -= gradient_b*p
+
+        # Parâmetros para o plot
+        label = 'y calculated' + str(iter)
+        plt.plot(x_plot, yc_plot,label=label)
+        erro_plot.append(w)
         
         iter += 1
+  
+        
+
+    plt.plot(x_plot, y_plot,'r.', label='y')
+    plt.legend()
+    plt.show()
+
+    plt.plot(erro_plot, 'b.')
+    plt.show()
 
     return w, a, b
 
