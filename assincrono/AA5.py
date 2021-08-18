@@ -1,7 +1,7 @@
 """
 Programa para calcular os valores de 'a' e 'b' pelo método de descida de gradiente simples em y(x) = a*exp(b*x)   
 
-Feito em grupo com Ney Barbosa, 
+Feito em grupo com Ney Barbosa, Keiht Macedo, Heitor Abreu, Júlia Xexeo e João Pedro Volpi.
 """
 
 def fatorial(n):
