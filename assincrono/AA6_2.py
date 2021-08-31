@@ -1,4 +1,6 @@
-# método gauss-seidel
+# método gauss-seidel.
+# Feito em Grupo com Júlia Xexéo e Ney Guindane.
+ 
 def compatibility(a):
     for i in range(len(a)):
         if 2*a[i][i] < sum(a[i]):
@@ -41,7 +43,7 @@ def gauss_seidel(a, b, iter):
     size, a = matrix_size(a)
 
     if not compatibility(a):
-        print('Não foi possível realizar a operação.' )
+        print('Não foi possível realizar a operação.')
         return('Não foi possível realizar a operação.')
 
     X = []
@@ -50,7 +52,7 @@ def gauss_seidel(a, b, iter):
     for i in range(size):
         X.append(0)
 
-    print(a)
+    
     for j in range(iter):
         for i in range(size):
             temp = 0   

@@ -1,5 +1,5 @@
-
-#função principal é LU_decomposition
+# Decomposição LU 
+# Feito em Grupo com Júlia Xexéo e Ney Guindane.
 
 def id_matrix(size):
 
@@ -33,9 +33,11 @@ def reorder_rows(u, l, p, column):
                 temp = u[i] 
                 u[i] = u[j]
                 u[j] = temp
+                
                 temp = l[i] 
                 l[i] = l[j]
                 l[j] = temp
+                
                 temp = p[i] 
                 p[i] = p[j]
                 p[j] = temp
@@ -90,7 +92,6 @@ def update_row(row, added_row, mult):
 
     for i in range(len(row)):
         row[i] += mult*added_row[i]
-        row[i] = round(row[i], 1)
 
     return row
 
@@ -120,18 +121,15 @@ def LU_decomposition(a):
         u, l, p = reorder_rows(u, l, p, i)
         l[i][i] = 1
         if i != 0:
-            print('UUUU',u)
             for j in range(i, size):
-                
                 if u[i-1][i-1] != 0:
-                
                     x = -u[j][i-1]/u[i-1][i-1]
                     l[j][i-1] = x
-        
                     u[j] = update_row(u[j], u[i-1], x) 
     
-    p = back_to_list(p)
-    l = back_to_list(l)
-    u = back_to_list(u)
+    p = back_to_list(p, size)
+    l = back_to_list(l, size)
+    u = back_to_list(u, size)
 
     return (p, l, u)
+

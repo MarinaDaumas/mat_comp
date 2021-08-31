@@ -1,7 +1,9 @@
 # método gauss-jacobi
+# Feito em Grupo com Júlia Xexéo e Ney Guindane.
+
 def compatibility(a):
     for i in range(len(a)):
-        if 2*a[i][i] < sum(a[i]):
+        if 2*a[i][i] <= sum(a[i]):
             return False
         
     return True
@@ -45,14 +47,14 @@ def gauss_jacobi(a, b, iter):
         return('Não foi possível realizar a operação.')
 
     X = []
-    #X = [1, 2, 5]
 
     for i in range(size):
         X.append(0)
 
-    X_temp = X
+
 
     for j in range(iter):
+        X_temp = [i for i in X]
         for i in range(size):
             temp = 0   
             for k in range(size):
