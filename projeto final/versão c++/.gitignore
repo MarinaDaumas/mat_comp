@@ -1,0 +1,17 @@
+*.obj
+*.log
+*.lastbuildstate
+*.tlog
+*.ilk
+*.pdb
+*.idb
+*.ipch
+*.pch
+*.opensdf
+*.suo
+*.sdf
+*.restore
+src/.vs/*
+bin/*
+bin/triangle.bmp
+src/Release/SimPend.exe
