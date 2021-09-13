@@ -1,5 +1,5 @@
 """
-Beeman attractor para apenas um ponto inicial.
+Paralel processing version of beeman_attractor.py
 """
 import numpy as np 
 import math
@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 import params 
 from utils import Magnet
 
+
+batch = params.image_dim**2 # batch = num de pixels na imagem 
 
 def calculate_acc(l_mags, pos, vel):
     # variáveis de ambiente
@@ -16,8 +18,8 @@ def calculate_acc(l_mags, pos, vel):
     atrito = params.atrito
 
     next_acc = np.zeros(2)
-
-    total_force = np.array([-m*g*pos[0]/L, -m*g*pos[1]/L]) #tensão (aproximaçaõ pela Lei de Hooke)
+    
+    total_force = np.array([-m*g*pos[0]/L, -m*g*pos[1]/L]) # tensão (aproximaçaõ pela Lei de Hooke)
         
     for magnet in l_mags:
         total_force += magnet.force_on_pendulum(pos) 
@@ -56,15 +58,12 @@ def beeman_position(initial_pos, l_mags):
         # Método de Beeman para prever velocidade    
         vel += (2/3*acc - 1/2*last_acc)*dt
 
-        
         next_acc = calculate_acc(l_mags, pos, vel ) 
 
         # Método para corrigir velocidade
         vel += (1./12)*(5*next_acc + 8*acc - last_acc)*dt
-        
         print(i, pos, vel, next_acc)
 
-        # update EDO variables
         last_acc[0] = acc[0]
         acc[0] = next_acc[0]
         last_acc[1] = acc[1]
@@ -82,6 +81,6 @@ def beeman_position(initial_pos, l_mags):
 
 if __name__ == "__main__":
 
-    l_mags = [Magnet(1, 0, 2, -0.5), Magnet(-math.sqrt(2), math.sqrt(2), 2, -0.5), Magnet(-math.sqrt(2), -math.sqrt(2), 2, -0.5)]
+    l_mags = [Magnet(1, 0, -0.5, 2), Magnet(-math.sqrt(2), math.sqrt(2), -0.5, 2), Magnet(-math.sqrt(2), -math.sqrt(2), -0.5, 2)]
 
-    beeman_position([3., 1.015], l_mags)
+    beeman_position([-0., 2.015], l_mags)
