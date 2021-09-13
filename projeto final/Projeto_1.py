@@ -1,8 +1,7 @@
-import cv2
+import cv2 as cv
 import numpy as np
 from beeman_attractor import beeman_position
 from utils import Magnet
-
 
 def set_magnets():
     """
