@@ -1,6 +1,6 @@
 
 # simulation variables
-max_iter = 8000
+max_iter = 5000
 image_dim = 255
 batch = image_dim**2
 
