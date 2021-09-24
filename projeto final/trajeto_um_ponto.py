@@ -28,15 +28,16 @@ def set_magnets():
 def main():
 
     t_0 = datetime.now()
-    
+
     #list_mags = set_magnets()
-    list_mags = [Magnet(2, 1, 1, 1, 1), Magnet(-3, -3, 1, 1, 2)]
+    list_mags = [Magnet(2, -2, 10, 0), Magnet(-2, -1, 10, 1), Magnet(2, 2, 10, 2)]
+
     initial_pos = []
     for i in range(-30, 30):
         for j in range(-30, 30):
             initial_pos.append([i, j])
     
-    initial_pos_1 = [0.5, -2]
+    initial_pos_1 = [3., 3.]
 
     im = beeman_position(initial_pos_1, list_mags)
 
