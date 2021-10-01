@@ -9,9 +9,8 @@ import params
 from utils import Magnet
 
 
-batch = params.image_dim**2 # batch = num de pixels na imagem 
 
-def calculate_acc(l_mags, pos, vel):
+def get_acc(l_mags, pos, vel):
     # variáveis de ambiente
     m = params.m
     L = params.L
@@ -22,6 +21,7 @@ def calculate_acc(l_mags, pos, vel):
         
     for magnet in l_mags:
         total_force += magnet.optimized_force_on_pendulum(pos) 
+        
     total_force -= vel*atrito # atrito do ar
 
     next_acc = total_force/m 
@@ -31,8 +31,7 @@ def calculate_acc(l_mags, pos, vel):
 
 def final_magnet(final_pos, l_mags):
     
-    
-    dist_array =np.zeros((len(final_pos), len(l_mags)))  # store dist^2 to each source
+    dist_array =np.zeros((len(final_pos), len(l_mags)))  
     for s in range(len(l_mags)):
         dist_array[:,s] = ((final_pos - [l_mags[s].x, l_mags[s].y])**2).sum(axis=1)
     return np.argmin(dist_array,axis=1)    
@@ -51,10 +50,10 @@ def beeman_position(initial_pos, l_mags):
     last_acc = np.zeros(np.shape(initial_pos))
     
 
-    # primeira iteração
-    vel += acc*dt
-    pos += vel*dt
-    acc = calculate_acc(l_mags, pos, vel)
+    # # primeira iteração
+    # vel += acc*dt
+    # pos += vel*dt
+    # acc = get_acc(l_mags, pos, vel)
     
     i = 0
     while i < max_iteration:   
@@ -65,7 +64,7 @@ def beeman_position(initial_pos, l_mags):
         # Método de Beeman para prever velocidade    
         vel += (2/3*acc - 1/2*last_acc)*dt
 
-        next_acc = calculate_acc(l_mags, pos, vel) 
+        next_acc = get_acc(l_mags, pos, vel) 
 
         # Método para corrigir velocidade
         vel += (1./12)*(5*next_acc + 8*acc - last_acc)*dt
