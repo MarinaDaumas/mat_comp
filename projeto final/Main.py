@@ -6,19 +6,28 @@ from datetime import datetime
 from paralel_beeman_attractor import beeman_position 
 from utils import Magnet
 
+"""
+Esse programa tem o objetivo de calcular e apresentar um mapa das regiões 
+de caos no mapa de posição final de um sistema de pêndulo magnético.
+Também é possivel gerar o próprio mapa de posição final.
+O número de ímãs do sistema assim como suas respectivas posições e forças 
+exercidas no pêndulo são determinas pelo usuário.
+Outras váriáveis podem ser modificados diretamente no arquivo params.py.
+"""
+
 
 def set_magnets():
     """
     Inicia as posições e forças magnéticas para cada ímã.  
     """
-    n = int(input("Numero de imas: "))
+    n = int(input("\nNumero de imas: "))
     list_mags = []
 
-    print("Pelo menos um dos ímãs deve ser atrativo e todos devem ter coordenadas (x,y) tais que -3 < x e y < -3.\nForças positivas são atrativas e negativas repulsivas.")
+    print("\nPelo menos um dos ímãs deve ser atrativo e todos devem ter coordenadas (x,y) tais que -3 < x e y < -3.\nForças positivas são atrativas e negativas repulsivas.")
 
     for i in range(n):
-        x = input("x ima "+ str(i) +': ')
-        y = input("x ima "+ str(i) +': ')
+        x = input("\nx ima "+ str(i) +': ')
+        y = input("y ima "+ str(i) +': ')
         force = input("força ima "+ str(i) +': ')
         list_mags.append(Magnet(x, y, force))
 
@@ -28,13 +37,14 @@ def main():
     
     show_regions = input("Deseja ver o mapa de posição final do pêndulo?\n(S - Sim  N - não)\n")
     
-    #list_mags = set_magnets()
-    list_mags = [Magnet(2, -2, 10), Magnet(2, 2, 8), Magnet(-3, -3, 11)]
+    list_mags = set_magnets()
+    #list_mags = [Magnet(2, -2, 10), Magnet(2, 2, 8), Magnet(-3, -3, 11)]
 
     t_0 = datetime.now()
 
     size  = params.image_dim
-    divisor = size/10 
+    reg_observ = params.reg_observ
+    divisor = size/reg_observ 
 
     # Monta a lista das posições iniciais
     initial_pos =[]
@@ -68,7 +78,7 @@ def main():
     caos_map = cv.resize(black, [720, 720])
 
     t_1 = datetime.now()
-    print("Tempo de processamento: ", t_1 - t_0)
+    print("\nTempo de processamento: ", t_1 - t_0)
 
     cv.imshow("Regioes de Caos", caos_map)
     cv.waitKey(0)

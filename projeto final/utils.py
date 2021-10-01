@@ -20,8 +20,6 @@ class Magnet():
         F = self.force/mod_dist**2
 
         F_direction = np.array([i/mod_dist*F for i in dist]) # vetor unitário x força
-        
-        print(dist, mod_dist, F_direction)
 
         return F_direction
 

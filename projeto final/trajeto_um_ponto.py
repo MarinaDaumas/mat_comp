@@ -5,50 +5,74 @@ from datetime import datetime
 from beeman_attractor import beeman_position 
 from utils import Magnet
 
+"""
+Esse programa tem o objetivo de calcular e apresentar o movimento 
+caótico determinístico do sistema de pêndulo magnético para 3 posições 
+inicias escolhidas pelo usuário.
+O número de ímãs do sistema assim como suas respectivas posições e forças 
+exercidas no pêndulo são determinas pelo usuário.
+Outras váriáveis podem ser modificados diretamente no arquivo params.py.
+"""
 
-
-def set_magnets():
+def initial_settings():
     """
-    Initialises magnets positions and forces.
+    Inicia as posições e forças magnéticas para cada ímã e as posições iniciais do pêndulo.  
     """
     n = int(input("Numero de imas: "))
     list_mags = []
+    in_x = []
+    in_y = []
 
-    print("Todos os imas devem ter coordenadas (x,y) tais que -3 < x e y < -3.\nForças positivas são atrativas e negativas repulsivas.")
+    print("Pelo menos um dos ímãs deve ser atrativo e todos devem ter coordenadas (x,y) tais que -3 < x e y < -3.\nForças positivas são atrativas e negativas repulsivas.")
 
-    for i in range(n):
-        x = input("x ima "+ str(i) +': ')
-        y = input("x ima "+ str(i) +': ')
-        z = input("z ima "+ str(i) +': ')
+    for i in range(1, n+1):
+        x = input("\nx ima "+ str(i) +': ')
+        y = input("y ima "+ str(i) +': ')
         force = input("força ima "+ str(i) +': ')
-        list_mags.append(Magnet(x, y, z, force, i))
+        list_mags.append(Magnet(x, y, force))
 
-    return list_mags    
+    for i in range(1, 4):
+        print("\nEscolha a posição inicial do pêndulo " + str(i) + "." )
+        in_x.append(float(input("x" + str(i) + ": ")))
+        in_y.append(float(input("y" + str(i) + ": ")))
+
+    initial_pos = {"x": in_x, "y": in_y}
+
+    return list_mags, initial_pos    
+
 
 def main():
 
     t_0 = datetime.now()
 
-    #list_mags = set_magnets()
-    list_mags = [Magnet(2, -2, 10, 0), Magnet(-2, -1, 10, 1), Magnet(2, 2, 10, 2)]
+    list_mags, initial_pos = initial_settings()
+    #list_mags = [Magnet(2, -2, 10), Magnet(-2, -1, 10), Magnet(2, 2, 10)]
 
-    initial_pos = []
-    for i in range(-30, 30):
-        for j in range(-30, 30):
-            initial_pos.append([i, j])
-    
-    initial_pos_1 = [3., 3.]
+    list_x = []
+    list_y = []
+    for i in range(3):
 
-    im = beeman_position(initial_pos_1, list_mags)
+        x, y = beeman_position([initial_pos["x"][i],initial_pos["y"][i]], list_mags)
+        list_x.append(x)
+        list_y.append(y)
 
-    print(im, initial_pos_1)
+
     t_1 = datetime.now()
+    print("\nTempo de processamento: ", t_1 - t_0)
 
-    print(t_1 - t_0)
+    
+    # Plot movimento pêndulo
+    mags_x = []
+    mags_y = []
+    for mag in list_mags:
+        mags_x.append(mag.x)  
+        mags_y.append(mag.y)
 
-    # plt.scatter(list_x, list_y)
-    # plt.scatter([1,-math.sqrt(2), -math.sqrt(2) ], [0,-math.sqrt(2), math.sqrt(2)])
-    # plt.show()
+    for i in range(3):
+        plt.scatter(list_x[i], list_y[i], s=1)
+    plt.scatter(mags_x, mags_y, s=30)
+    plt.show()
+
 
 if __name__ == "__main__":
     main()

@@ -21,7 +21,7 @@ def get_acc(l_mags, pos, vel):
         
     for magnet in l_mags:
         total_force += magnet.optimized_force_on_pendulum(pos) 
-        
+
     total_force -= vel*atrito # atrito do ar
 
     next_acc = total_force/m 
@@ -49,11 +49,6 @@ def beeman_position(initial_pos, l_mags):
     acc = np.zeros(np.shape(initial_pos))
     last_acc = np.zeros(np.shape(initial_pos))
     
-
-    # # primeira iteração
-    # vel += acc*dt
-    # pos += vel*dt
-    # acc = get_acc(l_mags, pos, vel)
     
     i = 0
     while i < max_iteration:   
@@ -69,7 +64,7 @@ def beeman_position(initial_pos, l_mags):
         # Método para corrigir velocidade
         vel += (1./12)*(5*next_acc + 8*acc - last_acc)*dt
 
-        # update EDO variables
+        # Update variáveis
         last_acc = acc.copy()
         acc = next_acc.copy()     
         
