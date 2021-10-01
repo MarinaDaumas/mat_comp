@@ -1,7 +1,7 @@
 
 # simulation variables
 max_iter = 5000
-image_dim = 250 # tem que ser divisível por 2
+image_dim = 50 # tem que ser divisível por 2
 
 # pendulum variables
 L = 20 # m

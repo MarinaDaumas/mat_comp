@@ -4,21 +4,11 @@ from numpy.core.fromnumeric import shape
 import params
 
 class Magnet():
-    def __init__(self, x, y, force, number):
+    def __init__(self, x, y, force):
         self.x = float(x)
         self.y =  float(y)
         self.z =  params.magnets_z
         self.force = float(force) 
-        self.number = int(number)
-
-
-    def distance(self, pendulo_pos):
-
-        dist = -pendulo_pos + [self.x, self.y]
-        
-        mod_dist = [np.sqrt(i[0]**2+i[1]**2+self.z**2) for i in dist]
-
-        return mod_dist
 
         
     def force_on_pendulum_one_iter(self, pendulo_pos):
@@ -37,7 +27,7 @@ class Magnet():
 
 
     def optimized_force_on_pendulum(self, pendulo_pos):
-        unitario = np.zeros(2)
+      
         dist = -pendulo_pos + [self.x, self.y]
       
         mod_xy =  (dist**2).sum(axis=-1)  
