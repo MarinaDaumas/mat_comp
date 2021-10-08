@@ -68,7 +68,7 @@ def main():
         mags_x.append(mag.x)  
         mags_y.append(mag.y)
 
-    for i in range(3):
+    for i in range(2):
         plt.scatter(list_x[i], list_y[i], s=1)
     plt.scatter(mags_x, mags_y, s=30)
     plt.show()

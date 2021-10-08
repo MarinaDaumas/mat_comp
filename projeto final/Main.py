@@ -15,7 +15,6 @@ exercidas no pêndulo são determinas pelo usuário.
 Outras váriáveis podem ser modificados diretamente no arquivo params.py.
 """
 
-
 def set_magnets():
     """
     Inicia as posições e forças magnéticas para cada ímã.  
@@ -70,7 +69,17 @@ def main():
     ajust = int(255/(len(list_mags)-1))
 
     res_image = result.astype('uint8')*ajust #ajusta os valores de cor na escala GRAY
+    
+
+    cv.imshow("Regs", res_image)
+    
     contours, _ = cv.findContours(res_image, mode=cv.RETR_TREE, method=cv.CHAIN_APPROX_NONE)
+
+    for i in range(len(list_mags)):
+        ret, one_color = cv.threshold(res_image, i*ajust, (i+1)*ajust, cv.THRESH_BINARY)
+        contours_i, _ = cv.findContours(one_color, mode=cv.RETR_TREE, method=cv.CHAIN_APPROX_NONE)
+        contours = contours + contours_i
+
     res_image = cv.cvtColor(res_image, cv.COLOR_GRAY2BGR)
 
     black = np.zeros(np.shape(res_image)).astype('uint8')
