@@ -24,7 +24,7 @@ def set_magnets():
 
     print("\nPelo menos um dos ímãs deve ser atrativo e todos devem ter coordenadas (x,y) tais que -3 < x e y < -3.\nForças positivas são atrativas e negativas repulsivas.")
 
-    for i in range(n):
+    for i in range(1, n+1):
         x = input("\nx ima "+ str(i) +': ')
         y = input("y ima "+ str(i) +': ')
         force = input("força ima "+ str(i) +': ')
