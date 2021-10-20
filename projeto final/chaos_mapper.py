@@ -36,14 +36,14 @@ def main():
     
     show_regions = input("Deseja ver o mapa de posição final do pêndulo?\n(S - Sim  N - não)\n")
     
-    list_mags = set_magnets()
-    #list_mags = [Magnet(2, -2, 10), Magnet(2, 2, 8), Magnet(-3, -3, 11)]
+    # list_mags = set_magnets()
+    list_mags = [Magnet(2, 6, 20), Magnet(3, -3, 20), Magnet(-3, 3, 20), Magnet(-3, -3, 20)]
 
     t_0 = datetime.now()
 
     size  = params.image_dim
     reg_observ = params.reg_observ
-    divisor = size/reg_observ 
+    divisor = size/(reg_observ *2)
 
     # Monta a lista das posições iniciais
     initial_pos =[]
@@ -65,23 +65,19 @@ def main():
             k+=1
     
 
-    # Apresenta mapa das Regiões de Caos
+    # Ajuste dos valores de cor na escala GRAY
     ajust = int(255/(len(list_mags)-1))
-
-    res_image = result.astype('uint8')*ajust #ajusta os valores de cor na escala GRAY
+    res_image = result.astype('uint8')*ajust 
     
-
-    cv.imshow("Regs", res_image)
-    
+    # Definição dos contornos de cada cor
     contours, _ = cv.findContours(res_image, mode=cv.RETR_TREE, method=cv.CHAIN_APPROX_NONE)
-
     for i in range(len(list_mags)):
         ret, one_color = cv.threshold(res_image, i*ajust, (i+1)*ajust, cv.THRESH_BINARY)
         contours_i, _ = cv.findContours(one_color, mode=cv.RETR_TREE, method=cv.CHAIN_APPROX_NONE)
         contours = contours + contours_i
 
+    # Desenho dos contornos
     res_image = cv.cvtColor(res_image, cv.COLOR_GRAY2BGR)
-
     black = np.zeros(np.shape(res_image)).astype('uint8')
     cv.drawContours(image=black, contours=contours, contourIdx=-1, color=(0, 255, 0), thickness=1, lineType=cv.LINE_AA)
     caos_map = cv.resize(black, [720, 720])
@@ -89,6 +85,7 @@ def main():
     t_1 = datetime.now()
     print("\nTempo de processamento: ", t_1 - t_0)
 
+    # Apresenta mapa de caos
     cv.imshow("Regioes de Caos", caos_map)
     cv.waitKey(0)
     

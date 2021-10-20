@@ -46,12 +46,14 @@ def main():
     t_0 = datetime.now()
 
     list_mags, initial_pos = initial_settings()
-    #list_mags = [Magnet(2, -2, 10), Magnet(-2, -1, 10), Magnet(2, 2, 10)]
+
+    # list_mags = [Magnet(3, 7, 20), Magnet(3, -3, 20), Magnet(-3, 3, 20), Magnet(-3, -3, 20)]
+    # initial_pos = {'x': [0.05, 1.0, 4.0], 'y': [0.1, 0.25, 5.0]}
 
     list_x = []
     list_y = []
-    for i in range(3):
 
+    for i in range(3):
         x, y = beeman_position([initial_pos["x"][i],initial_pos["y"][i]], list_mags)
         list_x.append(x)
         list_y.append(y)
@@ -68,7 +70,7 @@ def main():
         mags_x.append(mag.x)  
         mags_y.append(mag.y)
 
-    for i in range(2):
+    for i in range(3):
         plt.scatter(list_x[i], list_y[i], s=1)
     plt.scatter(mags_x, mags_y, s=30)
     plt.show()
